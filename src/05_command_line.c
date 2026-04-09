@@ -15,29 +15,53 @@ Where <operation> is one of:
 Examples:
   ./cmd add 10 5   -> 15
   ./cmd div 10 2   -> 5
-
-TODOs:
-1) If arguments are missing, print usage instructions and exit.
-2) Read operation string (argv[1]) and two integers (argv[2], argv[3]).
-   - Use strtol instead of atoi (better).
-3) Do the operation and print result.
-4) For division: handle division by zero.
-5) If operation is unknown: print "Unknown operation".
-
-Hint:
-- Use strcmp(op, "add") == 0
 */
 
 int main(int argc, char *argv[]) {
-    // TODO 1: check argc
-    // argc should be 4
+    // TODO 1: Check if the correct number of arguments is provided
+    if (argc != 4) {
+        printf("Usage: %s <operation> <num1> <num2>\n", argv[0]);
+        printf("Operations: add, sub, mul, div\n");
+        return 1;
+    }
 
-    // TODO 2: parse operation and numbers
-    // char *op = argv[1];
-    // long a = strtol(argv[2], NULL, 10);
-    // long b = strtol(argv[3], NULL, 10);
+    // TODO 2: Parse operation and numbers
+    char *op = argv[1];
+    char *endptr1, *endptr2;
 
-    // TODO 3-5: implement operations
+    // Convert strings to long integers using strtol
+    long num1 = strtol(argv[2], &endptr1, 10);
+    long num2 = strtol(argv[3], &endptr2, 10);
+
+    // Validate numeric input
+    if (*endptr1 != '\0' || *endptr2 != '\0') {
+        printf("Error: Please enter valid integers.\n");
+        return 1;
+    }
+
+    // TODO 3-5: Implement operations
+    if (strcmp(op, "add") == 0) {
+        printf("%ld\n", num1 + num2);
+    }
+    else if (strcmp(op, "sub") == 0) {
+        printf("%ld\n", num1 - num2);
+    }
+    else if (strcmp(op, "mul") == 0) {
+        printf("%ld\n", num1 * num2);
+    }
+    else if (strcmp(op, "div") == 0) {
+        // Handle division by zero
+        if (num2 == 0) {
+            printf("Error: Division by zero.\n");
+            return 1;
+        }
+        printf("%ld\n", num1 / num2);
+    }
+    else {
+        // Handle unknown operation
+        printf("Unknown operation\n");
+        return 1;
+    }
 
     return 0;
 }
