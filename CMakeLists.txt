@@ -1,12 +1,18 @@
 cmake_minimum_required(VERSION 3.10)
 project(C_Basics_Assignment C)
 
+# Set C standard to C11
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-add_executable(datatypes src/01_datatypes.c)
-add_executable(operators src/02_operators.c)
-add_executable(conditionals src/03_conditionals.c)
-add_executable(loops src/04_loops.c)
-add_executable(cmd src/05_command_line.c)
-add_executable(magic src/06_magic_numbers.c)
+# Gather all .c files from the src directory
+file(GLOB SOURCES "src/*.c")
+
+# Loop through each file to create an executable automatically
+foreach(sourceFILE ${SOURCES})
+    # Get the filename without the extension (e.g., 01_datatypes)
+    get_filename_component(nameEXE ${sourceFILE} NAME_WE)
+    
+    # Create the executable
+    add_executable(${nameEXE} ${sourceFILE})
+endforeach()
